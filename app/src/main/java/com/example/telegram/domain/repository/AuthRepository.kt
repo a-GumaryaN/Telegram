@@ -9,5 +9,5 @@ interface AuthRepository {
     suspend fun checkOTP(otp: String): Result<PersonData>
     suspend fun logOut(): Result<Unit>
     suspend fun isUserLoggedIn(): Boolean
-    suspend fun getToken(): SecurityData
+    suspend fun getToken(): Result<SecurityData>
 }

@@ -57,7 +57,7 @@ class LogOut(
 class UpdateToken(
     private val authRepository: AuthRepository
 ) {
-    suspend operator fun invoke(): SecurityData {
+    suspend operator fun invoke(): Result<SecurityData> {
         return authRepository.getToken()
     }
 }

@@ -1,6 +1,5 @@
 package com.example.authflow.domain.model
 
-import androidx.compose.ui.graphics.painter.Painter
 import java.util.Date
 
 
@@ -15,18 +14,12 @@ data class SecuritySettings(
 )
 
 data class Settings(
-    val appThemeMode: String,
-    val securitySettings: SecuritySettings
+    val appThemeMode: String, val securitySettings: SecuritySettings
 )
 
-data class ValueAccessor(
-    val type: AccessorType,
-    val except: List<String> = emptyList(),
-    val specificPeople: List<String> = emptyList()
-)
-
+// data of other person that user communicate with them
 data class PersonPublicInfo(
-    val id : String,
+    val id: String,
     val firstName: String,
     val lastName: String? = null,
     val bio: String? = null,
@@ -37,6 +30,7 @@ data class PersonPublicInfo(
     val isImportant: Boolean = false
 )
 
+// data of user
 data class PersonData(
     val id: String,
     val firstName: String,
@@ -46,7 +40,14 @@ data class PersonData(
     val profileImages: List<Int> = emptyList(),
     val bio: String? = null,
     val settings: Settings,
-    val token: String,
     val contacts: List<PersonPublicInfo> = emptyList(),
-    val mutedPersonIds: List<String> = emptyList()
+    val mutedPersonIds: List<String> = emptyList(),
+    val blockList : List<String> = emptyList(),
+    val securityData : SecurityData
+)
+
+
+data class SecurityData(
+    val token:String,
+    val expireTime : String,
 )

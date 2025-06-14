@@ -1,22 +1,36 @@
 package com.example.authflow.domain.model
 
+import android.net.Uri
 
-enum class  MessageContentType{
-    Text,Image,ShortVideo,Emoji
+enum class FileType{
+    Image,
+    Video,
+    Voice,
+    URL,
+    Emoji
 }
 
-class Message(
-    val contentType :MessageContentType = MessageContentType.Text,
-    val content : String,
-    val author : String, // => ID of sender
+class File(
+    val fileType: FileType,
+    val fileUri: Uri // uri of file or name of emoji of URL
 )
 
+class Message(
+    val uuid: String,
+    val author: String, // => ID of sender
+    val sendTime: String,
+    val editTime: String?,
+    val replyOf: String?, // => uuid of prev replied message
+    val content : String?, // => text content
+    val attachedFiles : List<File?> = emptyList(),
+)
 
 enum class CommunicationType{
     Chat,Group,Chanel
 }
 
 sealed class Communication (
+    open val uuid : String,
     val communicationType :CommunicationType,
     val messages : List<Message> = emptyList()
 )
@@ -24,13 +38,16 @@ sealed class Communication (
 typealias  Communications = List<Communication>
 
 class Chat (
-    val otherSidePerson : PersonPublicInfo
-) : Communication(communicationType = CommunicationType.Chat)
+    override val uuid :String,
+    val otherSidePerson : PersonPublicInfo,
+) : Communication(uuid=uuid,communicationType = CommunicationType.Chat)
 
 class Chanel (
+    override val uuid :String,
     val owner : PersonPublicInfo
-) : Communication(communicationType = CommunicationType.Chanel)
+) : Communication(uuid=uuid,communicationType = CommunicationType.Chanel)
 
 class Group (
+    override val uuid :String,
     val owner : PersonPublicInfo
-) : Communication(communicationType = CommunicationType.Group)
+) : Communication(uuid=uuid,communicationType = CommunicationType.Group)
